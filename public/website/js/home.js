@@ -15,10 +15,17 @@ app.controller('homeCtrl', function($scope, $http,$cookies) {
     $scope.searchProducts=[];
     $scope.searchProductsCatWise=[];
     $scope.allSubCat=[];
-
+    $scope.cardList=[];
+    $scope.filteredCardList=[];
 
     $scope.latitude=18.57695;
     $scope.longitude=73.737439;
+
+    if(!localStorage.getItem("cart_products")){
+        localStorage.setItem("cart_products","{}")
+    }else{
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+    }
      // For All Map Cordinator
     // if (navigator.geolocation) {
     //         navigator.geolocation.getCurrentPosition(function(position){
@@ -93,6 +100,62 @@ app.controller('homeCtrl', function($scope, $http,$cookies) {
         window.location.href = "product-grid.html";
      }
 
+     $scope.addRemoveProductToCart=function(product){
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+        if($scope.cardList[product.product_id]){
+            delete $scope.cardList[product.product_id]
+        }
+        else{
+            product.cartCount=1;
+            $scope.cardList[product.product_id]=product
+        }
+        localStorage.setItem("cart_products", JSON.stringify($scope.cardList));
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+        console.log(product)
+        $scope.getCartCount()
+     }
+     $scope.checkPCartStatus=function(product){
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+       return $scope.cardList[product.product_id]? true:false
+     }
+     $scope.getCartCount=function(){
+        return Object.keys(JSON.parse(localStorage.getItem("cart_products"))).length
+     }
+
+    //  For Cart
+     $scope.$watch("cardList", function(newVal) {
+        $scope.filteredCardList = newVal;
+      }, true);
+
+     $scope.getAllCartPrice=function(){
+        var total=0;
+        for(var key of Object.keys(JSON.parse(localStorage.getItem("cart_products")))){
+            total=total+(Number($scope.cardList[key].cartCount)*Number($scope.cardList[key].price))
+        }
+        return total;
+     }
+     $scope.getAllCartMrp=function(){
+        var total=0;
+        for(var key of Object.keys(JSON.parse(localStorage.getItem("cart_products")))){
+            total=total+(Number($scope.cardList[key].cartCount)*Number($scope.cardList[key].mrp))
+        }
+        return total;
+     }
+     $scope.changeCount=function(product,no){
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+        if((product.stock>=(product.cartCount+no)) && no==1){
+            product.cartCount=product.cartCount+no;
+        }
+        else if(product.cartCount>1 && no==-1){
+            product.cartCount=product.cartCount+no;
+        }
+        $scope.cardList[product.product_id]=product
+        localStorage.setItem("cart_products", JSON.stringify($scope.cardList));
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+     }
+    //  $scope.getAllCartPrice();
      $scope.getHomeData();
      $scope.getAllCateogoriesProducts();
+
+     console.log($scope.cardList)
 });
