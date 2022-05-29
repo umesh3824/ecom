@@ -5,7 +5,7 @@ app.controller('homeCtrl', function($scope, $http,$cookies) {
 
     $scope.BASE_URL="http://127.0.0.1:8000/api/";
 
-
+    $scope.appInfo=[];
     $scope.mainCatList=[];
     $scope.topSelling=[];
     $scope.topCatList=[];
@@ -34,7 +34,10 @@ app.controller('homeCtrl', function($scope, $http,$cookies) {
     //             console.log($scope.longitude)
     //         });
     // }
-
+    $http.get($scope.BASE_URL+'app_info').then(function (response) {
+        $scope.appInfo=response.data.data;
+         console.log(response.data)
+    });
    $scope.getAllCateogoriesProducts=function(){
         // For All Categories and Products
         $http.get($scope.BASE_URL+"cat")
@@ -102,21 +105,35 @@ app.controller('homeCtrl', function($scope, $http,$cookies) {
 
      $scope.addRemoveProductToCart=function(product){
         $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
-        if($scope.cardList[product.product_id]){
-            delete $scope.cardList[product.product_id]
+        if($scope.cardList[product.store_id+"_"+product.product_id]){
+            delete $scope.cardList[product.store_id+"_"+product.product_id]
         }
         else{
             product.cartCount=1;
-            $scope.cardList[product.product_id]=product
+            $scope.cardList[product.store_id+"_"+product.product_id]=product
         }
         localStorage.setItem("cart_products", JSON.stringify($scope.cardList));
         $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
         console.log(product)
         $scope.getCartCount()
      }
+     $scope.changeCount=function(product,no){
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+        if((product.stock>=(product.cartCount+no)) && no==1){
+            product.cartCount=product.cartCount+no;
+        }
+        else if(product.cartCount>1 && no==-1){
+            product.cartCount=product.cartCount+no;
+        }
+        $scope.cardList[product.store_id+"_"+product.product_id]=product
+        localStorage.setItem("cart_products", JSON.stringify($scope.cardList));
+        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
+     }
+
+
      $scope.checkPCartStatus=function(product){
         $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
-       return $scope.cardList[product.product_id]? true:false
+       return $scope.cardList[product.store_id+"_"+product.product_id]? true:false
      }
      $scope.getCartCount=function(){
         return Object.keys(JSON.parse(localStorage.getItem("cart_products"))).length
@@ -141,19 +158,6 @@ app.controller('homeCtrl', function($scope, $http,$cookies) {
         }
         return total;
      }
-     $scope.changeCount=function(product,no){
-        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
-        if((product.stock>=(product.cartCount+no)) && no==1){
-            product.cartCount=product.cartCount+no;
-        }
-        else if(product.cartCount>1 && no==-1){
-            product.cartCount=product.cartCount+no;
-        }
-        $scope.cardList[product.product_id]=product
-        localStorage.setItem("cart_products", JSON.stringify($scope.cardList));
-        $scope.cardList=JSON.parse(localStorage.getItem("cart_products"))
-     }
-    //  $scope.getAllCartPrice();
      $scope.getHomeData();
      $scope.getAllCateogoriesProducts();
 

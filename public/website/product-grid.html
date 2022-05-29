@@ -394,28 +394,18 @@
                                             <div class="filters-card-body card-shop-filters">
                                                 <div class="just-padding">
                                                     <div class="list-group list-group-root well">
-                                                        <a href="#item-1" class="list-group-item" data-toggle="collapse">
-                                                            <i class="glyphicon icofont-rounded-right"></i>Item 1
+                                                        <a href="#item-All" class="list-group-item" data-toggle="collapse" ng-click="serachProductFun('ALL')">
+                                                            <i class="glyphicon icofont-rounded-right"></i>All
                                                         </a>
-                                                        <div class="list-group collapse" id="item-1">
-                                                            <a href="" class="list-group-item" data-toggle="collapse">
-                                                                <i class="pr-3"></i>Item 1.1
+                                                        <div ng-repeat="main_cat in mainCatList">
+                                                            <a href="#item-{{main_cat.cat_id}}" class="list-group-item" data-toggle="collapse">
+                                                                <i class="glyphicon icofont-rounded-right"></i>{{main_cat.title}}
                                                             </a>
-                                                            <a href="" class="list-group-item" data-toggle="collapse">
-                                                                <i class="pr-3"></i>Item 1.2
-                                                            </a>
-                                                        </div>
-                                        
-                                                        <a href="#item-2" class="list-group-item" data-toggle="collapse">
-                                                            <i class="glyphicon icofont-rounded-right"></i>Item 1
-                                                        </a>
-                                                        <div class="list-group collapse" id="item-2">
-                                                            <a href="" class="list-group-item" data-toggle="collapse">
-                                                                <i class="pr-3"></i>Item 1.1
-                                                            </a>
-                                                            <a href="" class="list-group-item" data-toggle="collapse">
-                                                                <i class="pr-3"></i>Item 1.2
-                                                            </a>
+                                                            <div class="list-group collapse" id="item-{{main_cat.cat_id}}">
+                                                                <a href="" class="list-group-item" data-toggle="collapse" ng-repeat="subCat in main_cat.subcategory" ng-click="serachProductFun(subCat.cat_id)">
+                                                                    <i class="pr-3"></i>{{subCat.title}}
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -504,7 +494,11 @@
                                         </div> -->
                                         <p class="mb-0 text-dark">&#x20B9; {{item.price}} <span class="text-black-50"><del>&#x20B9;{{item.mrp}} </del></span></p>
                                         <div class="text-center mt-3">
-                                            <a href=""  class="btn-sm btn-bg p-2 pl-3 pr-3 rounded">ADD <i class="icofont-ui-add"></i></a>
+                                            <a href="#" class="btn-sm btn-bg p-2 pl-3 pr-3 rounded"
+                                            ng-click="addRemoveProductToCart(item)">Cart
+                                            <span ng-if="!checkPCartStatus(item)"><i class="icofont-ui-add"></i></span>
+                                            <span ng-if="checkPCartStatus(item)"><i class="icofont-ui-remove"></i></i><span>
+                                        </a>
                                         </div>
                                     </div>
                                 </div>
