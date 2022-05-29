@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Product List - E-Commerce</title>
+
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+
+    <link href="./assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="./assets/lib/select2/css/select2-bootstrap.css">
+    <link href="./assets/lib/select2/css/select2.min.css" rel="stylesheet">
+
+    <link href="./assets/lib/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="./assets/lib/icofont/icofont.min.css" rel="stylesheet">
+
+    <link href="./assets/css/style.css" rel="stylesheet">
+    <link href="./assets/css/nested_list.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="./assets/lib/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="./assets/lib/owl-carousel/owl.theme.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
+        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"></script>
+    <script src="./js/dirPagination.js"></script> 
+    <script src="./js/home.js"></script>
+    <style>
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                position: fixed;
+                top: 0px;
+                left: 0;
+                padding-left: 15px;
+                padding-right: 15px;
+                padding-bottom: 15px;
+                width: 60%;
+                height: 100%;
+                z-index: 100;
+                background: linear-gradient(135deg, #ff5541 0%, #ff365d 100%)
+            }
+
+            .navbar-collapse #search-form {
+                display: none;
+            }
+
+            .navbar-collapse #cart-profile-ul {
+                display: none;
+            }
+
+            .navbar-collapse.collapsing {
+                left: -75%;
+                transition: height 0s ease;
+            }
+
+            .main-nav .navbar-light .navbar-nav .nav-link {
+                text-align: left;
+                display: block;
+            }
+
+            .main-nav .navbar-light .navbar-nav .mega-drop {
+                overflow-y: scroll;
+                overflow-x: hidden;
+                max-height: calc(100vh - 100px);
+            }
+
+            .navbar-collapse.show {
+                left: 0;
+                transition: left 300ms ease-in-out;
+            }
+
+            .navbar-toggler.collapsed~.navbar-collapse {
+                transition: left 500ms ease-in-out;
+            }
+
+            #mob-view-container {
+                display: inline-flex !important;
+            }
+
+            #search-form-mob-container {
+                display: block !important;
+            }
+
+            #brand-logo-desktop {
+                display: none;
+            }
+        }
+
+        #mob-view-container {
+            display: none;
+        }
+
+        #search-form-mob-container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body ng-app="ecomApp" ng-controller="homeCtrl">
+    <div class="btn-primary pt-2 pb-2">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <a href="#" class="mb-0 text-white">
+                        40% CASHBACK FOR NEW USERS | CODE: <strong><span class="text-light">DEMO40 <span
+                                    class="mdi mdi-tag-faces"></span></span> </strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade login-modal-main" id="login">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="login-modal">
+                        <div class="row">
+                            <div class="col-lg-6 d-flex align-items-center">
+                                <div class="login-modal-left p-4 text-center pl-5">
+                                    <img src="./assets/img/login.jpg" alt="Software Hub">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <button type="button" class="close close-top-right position-absolute"
+                                    data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="icofont-close-line"></i></span>
+                                    <span class="sr-only">Close</span>
+                                </button>
+                                <form class="position-relative">
+                                    <ul class="mt-4 mr-4 nav nav-tabs-login float-right position-absolute"
+                                        role="tablist">
+                                        <li>
+                                            <a class="nav-link-login active" data-toggle="tab" href="#login-form"
+                                                role="tab"><i class="icofont-ui-lock"></i> LOGIN</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link-login" data-toggle="tab" href="#register" role="tab"><i
+                                                    class="icofont icofont-pencil"></i> REGISTER</a>
+                                        </li>
+                                    </ul>
+                                    <div class="login-modal-right p-4">
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="login-form" role="tabpanel">
+                                                <h5 class="heading-design-h5 text-dark">LOGIN</h5>
+                                                <fieldset class="form-group mt-4">
+                                                    <label>Enter Email/Mobile number</label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="+91 86230 40462">
+                                                </fieldset>
+                                                <fieldset class="form-group">
+                                                    <label>Enter Password</label>
+                                                    <input type="password" class="form-control" placeholder="********">
+                                                </fieldset>
+                                                <fieldset class="form-group">
+                                                    <button type="submit" class="btn btn-lg btn-primary btn-block">Enter
+                                                        to your
+                                                        account</button>
+                                                </fieldset>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="customCheck1">
+                                                    <label class="custom-control-label" for="customCheck1">Remember
+                                                        me</label>
+                                                </div>
+                                                <!-- <div class="login-with-sites mt-4">
+                                                    <p class="mb-2">or Login with your social profile:</p>
+                                                    <div class="row text-center">
+                                                        <div class="col-6 pr-1">
+                                                            <button class="btn-facebook btn-block login-icons btn-lg"><i class="icofont icofont-facebook"></i> Facebook</button>
+                                                        </div>
+                                                        <div class="col-6 pl-1">
+                                                            <button class="btn-google btn-block login-icons btn-lg"><i class="icofont icofont-google-plus"></i> Google</button>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                            <div class="tab-pane" id="register" role="tabpanel">
+                                                <h5 class="heading-design-h5 text-dark">REGISTER</h5>
+                                                <fieldset class="form-group mt-4">
+                                                    <label>Enter Email/Mobile number</label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="+91 86230 40462">
+                                                </fieldset>
+                                                <fieldset class="form-group">
+                                                    <label>Enter Password</label>
+                                                    <input type="password" class="form-control" placeholder="********">
+                                                </fieldset>
+                                                <fieldset class="form-group">
+                                                    <label>Enter Confirm Password </label>
+                                                    <input type="password" class="form-control" placeholder="********">
+                                                </fieldset>
+                                                <fieldset class="form-group">
+                                                    <button type="submit"
+                                                        class="btn btn-lg btn-primary btn-block">Create Your
+                                                        Account</button>
+                                                </fieldset>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="customCheck2">
+                                                    <label class="custom-control-label" for="customCheck2">I Agree with
+                                                        <a href="#">Term and Conditions</a></label>
+                                                </div>
+                                                <!-- <div class="login-with-sites mt-4">
+                                                    <p class="mb-2">or Login with your social profile:</p>
+                                                    <div class="row text-center">
+                                                        <div class="col-6 pr-1">
+                                                            <button class="btn-facebook btn-block login-icons btn-lg"><i class="icofont icofont-facebook"></i> Facebook</button>
+                                                        </div>
+                                                        <div class="col-6 pl-1">
+                                                            <button class="btn-google btn-block login-icons btn-lg"><i class="icofont icofont-google-plus"></i> Google</button>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-light">
+        <div class="header-top border-bottom bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-inline float-right mb-0">
+                            <li class="list-inline-item border-right border-left py-1 pr-2 mr-2 pl-2">
+                                <a href="#"><i class="icofont icofont-iphone"></i> +91 86230 40462</a>
+                            </li>
+                            <li class="list-inline-item border-right py-1 pr-2 mr-2">
+                                <a href="./contact-us.html"><i class="icofont icofont-headphone-alt"></i> Contact Us</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <span>Download App</span> &nbsp;
+                                <!-- <a href="#"><i class="icofont icofont-brand-windows"></i></a>
+                                <a href="#"><i class="icofont icofont-brand-apple"></i></a> -->
+                                <a href="#"><i class="icofont icofont-brand-android-robot"></i></a>
+                            </li>
+                        </ul>
+                        <p class="mb-0 py-1">FREE CASH ON DELIVERY &amp; SHIPPING AVAILABLE OVER <span
+                                class="text-danger font-weight-bold">&#x20B9;499</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-nav shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white pt-0 pb-0">
+                <div class="container">
+                    <div class="row" style="width: 100%;" id="mob-view-container">
+                        <div class="col-2 p-0 ml-0 mr-0 mb-0 mt-1 text-center">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                        <div class="col-8 p-0 m-0 text-left">
+                            <a class="navbar-brand" href="index.html">
+                                <img src="./assets/img/logo.png" alt="Software Hub">
+                            </a>
+                        </div>
+                        <div class="col-1" id="profile-mob">
+                            <a href="#" data-target="#login" data-toggle="modal" class="nav-link">
+                                <i class="icofont-ui-user"></i>
+                            </a>
+                        </div>
+                        <div class="col-1" id="cart-mob">
+                            <a data-toggle="offcanvas" class="nav-link" href="#">
+                                <i class="icofont-cart"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="navbar-brand" href="index.html" id="brand-logo-desktop">
+                        <img src="./assets/img/logo.png" alt="Software Hub">
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                        <form id="search-form" class="form-inline mr-auto ml-auto my-2 my-lg-0 top-search">
+                            <button class="btn-link" type="submit"><i class="icofont-search"></i></button>
+                            <input class="form-control mr-sm-1" type="search"
+                                placeholder="Search for products, brands and more" aria-label="Search">
+                        </form>
+                        <ul id="cart-profile-ul" class="navbar-nav ml-auto profile-nav-right">
+                            <li class="nav-item">
+                                <a href="#" data-target="#login" data-toggle="modal" class="nav-link ml-0 text-color">
+                                    <i class="icofont-ui-user"></i> Login/Sign Up
+                                </a>
+                            </li>
+                            <li class="nav-item cart-nav">
+                                <a data-toggle="offcanvas" class="nav-link text-color" href="#">
+                                    <i class="icofont-basket"></i> Cart
+                                    <span class="badge badge-danger">5</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div id="search-form-mob-container" class="row">
+                <div class="col">
+                    <form id="search-form" class="form-inline my-2 my-lg-0 top-search m-1">
+                        <button class="btn-link" type="submit"><i class="icofont-search"></i></button>
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search for products"
+                            aria-label="Search">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-nav shadow-sm pb-0 mb-0">
+            <nav class="navbar navbar-expand-lg navbar-light" id="desktop-menu"
+                style="padding:0px !important;background: linear-gradient(135deg, #ff5541 0%, #ff365d 100%) !important;">
+                <div class="container">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto main-nav-right" style="width: 100%;">
+                            <li class="nav-item text-center" style="width: 100%;">
+                                <a class="nav-link" href="index.html"><i class="icofont-ui-home"></i> HOME</a>
+                            </li>
+                            <li class="nav-item text-center" style="width:100%;">
+                                <a class="nav-link" href="product-grid.html">Products</a>
+                            </li>
+                            <li class="nav-item dropdown text-center" style="width:100%;">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Top Categories
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
+                                    <div ng-repeat="main_cat in topCatList">
+                                        <a class="dropdown-item" href="#" ng-click="serachProductFun(main_cat.cat_id)">{{main_cat.title}}</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown text-center" style="width:100%;">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Contact
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
+                                    <a class="dropdown-item" href="product-grid.html">Customer Service</a>
+                                    <a class="dropdown-item" href="product-grid.html">Complaint Directly</a>
+                                    <a class="dropdown-item" href="product-grid.html">Product List</a>
+                                    <a class="dropdown-item" href="product-detail.html">Product Detail</a>
+                                    <a class="dropdown-item" href="checkout.html">Checkout</a>
+                                    <a class="dropdown-item" href="profile.html">My Account</a>
+                                    <a class="dropdown-item" href="about-us.html">About Us</a>
+                                    <a class="dropdown-item" href="faq.html">FAQ</a>
+                                    <a class="dropdown-item" href="contact-us.html">Contact Us</a>
+                                </div>
+                            </li>
+                            <li class="nav-item text-center" style="width:100%;">
+                                <a class="nav-link" href="product-grid.html">Feedback Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+        <section class="py-5 products-listing bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="filters mobile-filters shadow-sm rounded bg-white mb-4 d-none d-block d-md-none">
+                            <div class="border-bottom">
+                                <a class="h6 font-weight-bold text-dark d-block m-0 p-3" data-toggle="collapse"
+                                    href="#mobile-filters" role="button" aria-expanded="false"
+                                    aria-controls="mobile-filters">Filter By <i
+                                        class="icofont-arrow-down float-right mt-1"></i></a>
+                            </div>
+                            <div id="mobile-filters" class="filters-body collapse multi-collapse">
+                                <div id="accordion">
+                                    <div class="filters-card border-bottom p-3">
+                                        <div class="filters-card-header" id="headingTwo">
+                                            <h6 class="mb-0">
+                                                <a href="#" class="btn-link" data-toggle="collapse"
+                                                    data-target="#collapsetwo" aria-expanded="true"
+                                                    aria-controls="collapsetwo">
+                                                    All Category
+                                                    <i class="icofont-arrow-down float-right"></i>
+                                                </a>
+                                            </h6>
+                                        </div>
+                                        <div id="collapsetwo" class="collapse" aria-labelledby="headingTwo"
+                                            data-parent="#accordion">
+                                            <div class="filters-card-body card-shop-filters">
+                                                <div class="just-padding">
+                                                    <div class="list-group list-group-root well">
+                                                        <a href="#item-1" class="list-group-item" data-toggle="collapse">
+                                                            <i class="glyphicon icofont-rounded-right"></i>Item 1
+                                                        </a>
+                                                        <div class="list-group collapse" id="item-1">
+                                                            <a href="" class="list-group-item" data-toggle="collapse">
+                                                                <i class="pr-3"></i>Item 1.1
+                                                            </a>
+                                                            <a href="" class="list-group-item" data-toggle="collapse">
+                                                                <i class="pr-3"></i>Item 1.2
+                                                            </a>
+                                                        </div>
+                                        
+                                                        <a href="#item-2" class="list-group-item" data-toggle="collapse">
+                                                            <i class="glyphicon icofont-rounded-right"></i>Item 1
+                                                        </a>
+                                                        <div class="list-group collapse" id="item-2">
+                                                            <a href="" class="list-group-item" data-toggle="collapse">
+                                                                <i class="pr-3"></i>Item 1.1
+                                                            </a>
+                                                            <a href="" class="list-group-item" data-toggle="collapse">
+                                                                <i class="pr-3"></i>Item 1.2
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filters shadow-sm rounded bg-white mb-3 d-none d-sm-none d-md-block">
+                            <div class="filters-header border-bottom pl-4 pr-4 pt-3 pb-3">
+                                <h5 class="m-0 text-dark">Filter By</h5>
+                            </div>
+                            <div class="filters-body">
+                                <div id="accordion">
+                                    <div class="filters-card border-bottom p-4">
+                                        <div class="filters-card-header" id="headingOne">
+                                            <h6 class="mb-0">
+                                                <a href="#" class="btn-link" data-toggle="collapse"
+                                                    data-target="#collapseOne" aria-expanded="true"
+                                                    aria-controls="collapseOne">
+                                                    All Category <i class="icofont-arrow-down float-right"></i>
+                                                </a>
+                                            </h6>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                            data-parent="#accordion">
+                                            <div class="filters-card-body card-shop-filters">
+                                                <div class="just-padding">
+                                                    <div class="list-group list-group-root well">
+                                                        <a href="#item-All" class="list-group-item" data-toggle="collapse" ng-click="serachProductFun('ALL')">
+                                                            <i class="glyphicon icofont-rounded-right"></i>All
+                                                        </a>
+                                                        <div ng-repeat="main_cat in mainCatList">
+                                                            <a href="#item-{{main_cat.cat_id}}" class="list-group-item" data-toggle="collapse">
+                                                                <i class="glyphicon icofont-rounded-right"></i>{{main_cat.title}}
+                                                            </a>
+                                                            <div class="list-group collapse" id="item-{{main_cat.cat_id}}">
+                                                                <a href="" class="list-group-item" data-toggle="collapse" ng-repeat="subCat in main_cat.subcategory" ng-click="serachProductFun(subCat.cat_id)">
+                                                                    <i class="pr-3"></i>{{subCat.title}}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <img src="./assets/img/offer-2.png"
+                            class="w-100 bg-white rounded overflow-hidden position-relative shadow-sm d-none d-sm-none d-md-block"
+                            alt="..."> -->
+                    </div>
+                    <div class="col-md-9">
+                        <div class="shop-head mb-3">
+                            <div class="btn-group float-right mt-2 d-none d-sm-none d-md-block">
+                                <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="icofont icofont-filter"></span> Sort by Products &nbsp;&nbsp;
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Relevance</a>
+                                    <a class="dropdown-item" href="#">Price (Low to High)</a>
+                                    <a class="dropdown-item" href="#">Price (High to Low)</a>
+                                    <a class="dropdown-item" href="#">Discount (High to Low)</a>
+                                    <a class="dropdown-item" href="#">Name (A to Z)</a>
+                                </div>
+                            </div>
+                            <h5 class="mb-1 text-dark">Topwear</h5>
+                            <a href="#"><span class="icofont icofont-ui-home"></span> Home</a> <span
+                                class="icofont icofont-thin-right"></span> <a href="#">Topwear</a> <span
+                                class="icofont icofont-thin-right"></span> <span>Sweatshirts</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 col-md-3" dir-paginate="item in searchProducts | itemsPerPage: 12">
+                                <div class="card list-item bg-white rounded overflow-hidden position-relative shadow-sm">
+                                    <span class="like-icon"><a href="#"> <i class="icofont icofont-heart"></i></a></span>
+                                    <a href="#">
+                                        <span class="badge badge-danger" ng-if="item.mrp-item.price>0">Rs {{item.mrp-item.price}} OFF</span>
+                                        <img src="../{{item.product_image}}" class="card-img-top" style="height: 40vh;" alt="..."></a>
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-1">{{item.product_name}}</h6>
+                                        <!-- <div class="stars-rating"><i class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i class="icofont icofont-star"></i> <span>613</span>
+                                        </div> -->
+                                        <p class="mb-0 text-dark">&#x20B9; {{item.price}} <span class="text-black-50"><del>&#x20B9;{{item.mrp}} </del></span></p>
+                                        <div class="text-center mt-3">
+                                            <a href=""  class="btn-sm btn-bg p-2 pl-3 pr-3 rounded">ADD <i class="icofont-ui-add"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-12 text-center load-more">
+                                <button class="btn btn-primary btn-sm" type="button" disabled="">
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    Loading...
+                                </button>
+                            </div> -->
+                        </div>
+                        <div class="pagination justify-content-center mt-3">
+                            <dir-pagination-controls   
+                            boundary-links="true"   
+                            direction-links="true" >  
+                            </dir-pagination-controls> 
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <div class="copyright bg-light py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="mb-0">© Copyright 2021 <a href="#">Software Hub</a> . All Rights Reserved
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <img class="img-fluid" src="./assets/img/payment_methods.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart-sidebar">
+            <div class="cart-sidebar-header">
+                <h5>
+                    My Cart <span class="text-info">(5 item)</span> <a data-toggle="offcanvas" class="float-right"
+                        href="#"><i class="icofont icofont-close-line"></i>
+                    </a>
+                </h5>
+            </div>
+            <div class="cart-sidebar-body">
+                <div class="cart-list-product">
+                    <a class="float-right remove-cart" href="#"><i class="icofont icofont-close-circled"></i></a>
+                    <img class="img-fluid" src="./assets/img/item/1.jpg" alt="">
+                    <span class="badge badge-success">50% OFF</span>
+                    <h5><a href="#">Floret Printed Ivory Skater Dress</a></h5>
+                    <div class="stars-rating"><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star"></i>
+                        <span>613</span></div>
+                    <p class="f-14 mb-0 text-dark float-right">&#x20B9; 135.00 <del
+                            class="small text-secondary">&#x20B9;500.00 </del></p>
+                    <span class="count-number float-left">
+                        <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i>
+                        </button>
+                        <input class="count-number-input" type="text" value="1" readonly="">
+                        <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="cart-list-product">
+                    <a class="float-right remove-cart" href="#"><i class="icofont icofont-close-circled"></i></a>
+                    <img class="img-fluid" src="./assets/img/item/2.jpg" alt="">
+                    <span class="badge badge-danger">55% OFF</span>
+                    <h5><a href="#">Floret Printed Ivory Skater Dress</a></h5>
+                    <div class="stars-rating"><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star"></i>
+                        <span>613</span></div>
+                    <p class="f-14 mb-0 text-dark float-right">&#x20B9; 250.00 <del
+                            class="small text-secondary">&#x20B9;500.00 </del> <span
+                            class="bg-info rounded-sm pl-1 ml-1 pr-1 text-white small">NEW</span> </p>
+                    <span class="count-number float-left">
+                        <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i>
+                        </button>
+                        <input class="count-number-input" type="text" value="1" readonly="">
+                        <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="cart-list-product">
+                    <a class="float-right remove-cart" href="#"><i class="icofont icofont-close-circled"></i></a>
+                    <img class="img-fluid" src="./assets/img/item/3.jpg" alt="">
+                    <span class="badge badge-info">NEW</span>
+                    <h5><a href="#">Floret Printed Ivory Skater Dress</a></h5>
+                    <div class="stars-rating"><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star"></i>
+                        <span>613</span></div>
+                    <p class="f-14 mb-0 text-dark float-right">&#x20B9; 900.00 <del
+                            class="small text-secondary">&#x20B9;500.00 </del> <span
+                            class="bg-danger  rounded-sm pl-1 ml-1 pr-1 text-white small"> 50% OFF</span> </p>
+                    <span class="count-number float-left">
+                        <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i>
+                        </button>
+                        <input class="count-number-input" type="text" value="1" readonly="">
+                        <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="cart-list-product">
+                    <a class="float-right remove-cart" href="#"><i class="icofont icofont-close-circled"></i></a>
+                    <img class="img-fluid" src="./assets/img/item/4.jpg" alt="">
+                    <span class="badge badge-danger">NEW</span>
+                    <h5><a href="#">Floret Printed Ivory Skater Dress</a></h5>
+                    <div class="stars-rating"><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star"></i>
+                        <span>613</span></div>
+                    <p class="f-14 mb-0 text-dark float-right">&#x20B9; 135.00 <del
+                            class="small text-secondary">&#x20B9;500.00 </del> <span
+                            class="bg-danger  rounded-sm pl-1 ml-1 pr-1 text-white small"> 50% OFF</span> </p>
+                    <span class="count-number float-left">
+                        <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i>
+                        </button>
+                        <input class="count-number-input" type="text" value="1" readonly="">
+                        <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="cart-list-product">
+                    <a class="float-right remove-cart" href="#"><i class="icofont icofont-close-circled"></i></a>
+                    <img class="img-fluid" src="./assets/img/item/5.jpg" alt="">
+                    <span class="badge badge-info">NEW</span>
+                    <h5><a href="#">Floret Printed Ivory Skater Dress</a></h5>
+                    <div class="stars-rating"><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star active"></i><i
+                            class="icofont icofont-star active"></i><i class="icofont icofont-star"></i>
+                        <span>613</span></div>
+                    <p class="f-14 mb-0 text-dark float-right">&#x20B9; 135.00 <del
+                            class="small text-secondary">&#x20B9;500.00 </del> <span
+                            class="bg-danger  rounded-sm pl-1 ml-1 pr-1 text-white small"> 50% OFF</span> </p>
+                    <span class="count-number float-left">
+                        <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i>
+                        </button>
+                        <input class="count-number-input" type="text" value="1" readonly="">
+                        <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="cart-sidebar-footer">
+                <div class="cart-store-details">
+                    <p>Sub Total <strong class="float-right">&#x20B9;900.69</strong></p>
+                    <p>Delivery Charges <strong class="float-right text-danger">+ &#x20B9;29.69</strong></p>
+                    <h6>Your total savings <strong class="float-right text-danger">&#x20B9;55 (42.31%)</strong></h6>
+                </div>
+                <a href="./checkout.html"><button class="btn btn-primary btn-lg btn-block text-left" type="button"><span
+                            class="float-left"><i class="icofont icofont-cart"></i> Proceed to Checkout </span><span
+                            class="float-right"><strong>&#x20B9; 1200.69</strong> <span
+                                class="icofont icofont-bubble-right"></span></span></button></a>
+            </div>
+        </div>
+
+        <script src="./assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="./assets/lib/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+        <script src="./assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
+
+        <script src="./assets/lib/owl-carousel/owl.carousel.js" type="text/javascript"></script>
+
+        <script src="./assets/js/custom.js" type="text/javascript"></script>
+        <script>
+            $(function () {
+
+                $('.list-group-item').on('click', function () {
+                    $('.glyphicon', this)
+                        .toggleClass('icofont-rounded-right')
+                        .toggleClass('icofont-rounded-down');
+                });
+
+            });
+        </script>
+</body>
+
+</html>
